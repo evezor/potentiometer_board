@@ -21,7 +21,7 @@ b_pot = ADC("A0")
 
 column_a = Pin("E4", Pin.OUT, Pin.PULL_DOWN) 
 column_b = Pin("E3", Pin.OUT, Pin.PULL_DOWN) 
-column_a.value(1)
+column_a.value(1) #When the column is HIGH the column is OFF, write them to OFF on initialization
 column_b.value(1)
 
 row_0 = Pin("D0", Pin.OUT) 
