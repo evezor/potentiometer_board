@@ -1,3 +1,3 @@
-# b3_board
-This repo is for the first prototype board in the Edge series, known by the moniker "B3"
-{{Insert Something Here to describe how the board is used}} //This will be used to define pins.json
+# Potentiometer Board
+An edge board containing two potentiometers, two bar graph leds and two buttons
+
