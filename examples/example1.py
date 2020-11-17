@@ -5,14 +5,15 @@ from pyb import CAN, ADC
 import utime
 
 print("initializing")
-can = CAN(1, CAN.LOOPBACK)
+can = CAN(1, CAN.NORMAL)
 can.setfilter(0, CAN.LIST16, 0, (123, 124, 125, 126))
 
 
 #Setup Pins
 hbt_led = Pin("D5", Pin.OUT)
 func_butt = Pin("E7", Pin.IN, Pin.PULL_UP) 
-
+can_wakeup = Pin("D6", Pin.OUT)
+can_wakeup.value(0)
 
 a_button = Pin("E13", Pin.IN, Pin.PULL_UP) 
 b_button = Pin("E12", Pin.IN, Pin.PULL_UP) 
@@ -69,11 +70,13 @@ def chk_buttons():
         
 
 def send():
-    can.send('message!', 123)   # send a message with id 123
+    can.send('EVZRTST', 123)   # send a message with id 123
     
 def get():
     mess = can.recv(0)
     print(mess)
+    light_sweep('a')
+    light_sweep('b')
         
 def light_sweep(side):
         if(side == 'a'):
@@ -95,9 +98,13 @@ while True:
     chk_hbt()
     if not (func_butt.value()):
         print("function button")
+        send()
+        light_sweep('a')
+        light_sweep('b')
         utime.sleep_ms(200)
     
-    
+    if(can.any(0)):
+        get()
     
     if not (a_button.value()):
         print("A button, a_pot:", a_pot.read())
@@ -107,5 +114,3 @@ while True:
         print("B button, b_pot:", b_pot.read())
         light_sweep('b')
         utime.sleep_ms(200)
-    
-    
